@@ -27,7 +27,8 @@ def carregar_base():
     
     melhor_match_idx = scores.arg.max().item() #quem ganhou a comparação é dada por score(lista dos vetores) arg.max(uma funcao que percorre a lista e fala que o maior valor ta na posição tal) e .item(transforma o resultado de arg.max em número inteiro) 
     return {
+        "pergunta_recebida": pergunta_usuario,#pega a pergunta do usuario
         "resposta": base[melhor_match_idx],#pega o texto que recebeu melhor_match_idx
-        "score_confianca": round(float(scores[melhor_match_idx]), 4)#score_confianca(mostra o quao certeira é a resposta) scores[melhor_match_idx](pega o valor da similaridade) float(faz o numero ser decimal) round[4](faz com que tenha no maximo 4 casas decimais)
+        "confianca": round(float(scores[melhor_match_idx]), 4)#confianca(mostra o quao certeira é a resposta) scores[melhor_match_idx](pega o valor da similaridade) float(faz o numero ser decimal) round[4](faz com que tenha no maximo 4 casas decimais)
     }
     
