@@ -3,7 +3,6 @@ from sentence_transformers import SentenceTransformer, util
 import os
 
 router = APIRouter(tags=["FAQ"])
-
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def carregar_base():
@@ -26,6 +25,13 @@ def buscar_resposta(pergunta_usuario: str):
         scores = util.cos_sim(embedding_pergunta, embeddings_base)[0] #scores é igual à similaridade dos cossenos dos embeddings da pergunta e da base
     
         melhor_match_idx = scores.argmax().item() #quem ganhou a comparação é dada por score(lista dos vetores) arg.max(uma funcao que percorre a lista e fala que o maior valor ta na posição tal) e .item(transforma o resultado de arg.max em número inteiro) 
+        confianca = round(float(scores[melhor_match_idx]), 4)
+        if confianca < 0.40:
+            return {
+        "pergunta_recebida": pergunta_usuario,#pega a pergunta do usuario
+        "resposta": "Desculpe, não tenho certeza sobre isso, pode reformular a pergunta?",#nao da a resposta pq a confianca foi baixa
+        "confianca": round(float(scores[melhor_match_idx]), 4)#confianca(mostra o quao certeira é a resposta) scores[melhor_match_idx](pega o valor da similaridade) float(faz o numero ser decimal) round[4](faz com que tenha no maximo 4 casas decimais)
+            }
         return {
         "pergunta_recebida": pergunta_usuario,#pega a pergunta do usuario
         "resposta": base[melhor_match_idx],#pega o texto que recebeu melhor_match_idx
