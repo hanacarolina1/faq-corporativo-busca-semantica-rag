@@ -1,0 +1,8 @@
+from fastapi import FastAPI
+from src.api.routers import controller
+from src.api.routers import health
+
+app = FastAPI(title="FAQ Corporativo - Agente Semântico")
+
+app.include_router(health.router)
+app.include_router(controller.router)
