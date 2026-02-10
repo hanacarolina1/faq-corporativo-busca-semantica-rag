@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from agent.src.api.routers import controller
+from src.api.routers import controller
 from src.api.routers import health
 
 app = FastAPI(title="FAQ Corporativo - Agente Semântico")
