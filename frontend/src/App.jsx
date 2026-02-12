@@ -11,7 +11,7 @@ function App() {
     setMessages(prev => [...prev, { from: "user", text: question }]);
 
     try {
-      const res = await fetch("http://localhost:5001/api/chat", {
+      const res = await fetch("http://localhost:5223/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -22,10 +22,10 @@ function App() {
         })
       });
 
-      const data = await res.text();
+      const data = await res.json();
 
       // adiciona resposta do bot
-      setMessages(prev => [...prev, { from: "bot", text: data }]);
+      setMessages(prev => [...prev, { from: "bot", text: data.answer }]); 
     } catch (err) {
       setMessages(prev => [...prev, { from: "bot", text: "Erro ao conectar com backend" }]);
     }
